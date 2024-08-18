@@ -25,6 +25,7 @@ axios.interceptors.response.use(
         originalRequest._retry = true;
 
         const refresh_token = window.localStorage.getItem("refresh_token");
+        console.log(refresh_token);
 
         const { data } = await axios.post(mainUrl + "/auth/refresh-token", {
           refresh_token,

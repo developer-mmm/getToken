@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 function Login() {
   const loginRef = useRef();
   const passwordRef = useRef();
+  const dispatch = useDispatch();
 
   const handlesubmit = (e) => {
     e.preventDefault();
@@ -13,7 +14,7 @@ function Login() {
     axiosClient.post("/auth/login", {
         username: loginRef.current.value,
         password: passwordRef.current.value,
-      }).then((data) => console.log(data))
+      }).then((data) => dispatch (login(data.data)))
       .catch((error) => console.log(error))
     
   };
