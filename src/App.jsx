@@ -1,17 +1,26 @@
 import { useEffect } from "react";
 import { axiosClient } from "./utils/axiosClient";
-import { createBrowserRouter } from "react-router-dom";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 
 function App() {
-  const user = true;
+  const user = false;
   const routes = createBrowserRouter([
     {
       path: "/",
-      element: <MainLayout />,
+      element: (
+        <ProtectedRoutes user={user}>
+          <MainLayout />
+        </ProtectedRoutes>
+      ),
       children: [
         {
           index: true,
@@ -21,13 +30,14 @@ function App() {
     },
     {
       path: "/login",
-      element: <Login />,
+      element: user ? <Navigate to="/" /> : <Login />,
     },
     {
       path: "/register",
-      element: <Register />,
+      element: user ? <Navigate to="/" /> : <Register />,
     },
   ]);
+  return <RouterProvider router={routes} />;
 }
 
 export default App;
